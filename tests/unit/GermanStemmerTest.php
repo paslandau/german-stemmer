@@ -1,6 +1,8 @@
 <?php
 use paslandau\GermanStemmer\GermanStemmer;
 
+mb_internal_encoding("utf-8");
+
 /**
  *	A short PHPUnit test case.
  *
@@ -25,11 +27,11 @@ class GermanStemmerTest extends PHPUnit_Framework_TestCase
 			'aufeinanderfolgender' => 'aufeinanderfolg',
 			'aufeinanderfolgt' => 'aufeinanderfolgt',
 			'aufeinanderfolgten' => 'aufeinanderfolgt',
-			'aufeinanderschlugen' => 'aufeinanderschlug',
+			'aufeinanderschlügen' => 'aufeinanderschlug',
 			'aufenthalt' => 'aufenthalt',
 			'aufenthalten' => 'aufenthalt',
 			'aufenthaltes' => 'aufenthalt',
-			'auffassungsvermogen' => 'auffassungsvermog',
+			'auffassungsvermögen' => 'auffassungsvermog',
 			'kategorie' => 'kategori',
 			'kategorien' => 'kategori',
 			'kategorisch' => 'kategor',
@@ -40,7 +42,7 @@ class GermanStemmerTest extends PHPUnit_Framework_TestCase
 			'katerliede' => 'katerlied',
 			'katern' => 'kat',
 			'katers' => 'kat',
-			'kattunhalstucher' => 'kattunhalstuch',
+			'kattunhalstücher' => 'kattunhalstuch',
 			'katzensprung' => 'katzenspr',
 			'auferstehung' => 'aufersteh',
 			'kauen' => 'kau'
