@@ -15,17 +15,25 @@ Modifications I made include:
  - Travis setup
  - Semantic versioning
 
-###Basic Usage
-```php
+##Basic Usage
 
+```php
 $word = "vergnüglich";
 echo "$word => ".GermanStemmer::stem($word);
-
 ```
 
 **Output**
 
     vergnüglich => vergnug
+    
+###Caution
+Make sure to use UTF-8 as character encoding, otherwise `GermanStemmer::stem()` might throw an `InvalidArgumentException`.
+
+```php
+//set encoding to utf-8
+mb_internal_encoding("utf-8");
+```
+
 
 ###Examples
 
@@ -56,8 +64,8 @@ Next, update your project's composer.json file to include GermanStemmer:
     }
 
 After installing, you need to require Composer's autoloader:
-```php
 
+```php
 require 'vendor/autoload.php';
 ```
 

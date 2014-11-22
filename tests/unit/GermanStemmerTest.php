@@ -1,9 +1,6 @@
 <?php
 use paslandau\GermanStemmer\GermanStemmer;
 
-error_reporting(E_ALL);
-mb_internal_encoding("utf-8");
-
 /**
  *	A short PHPUnit test case.
  *
@@ -16,7 +13,16 @@ mb_internal_encoding("utf-8");
 
 class GermanStemmerTest extends PHPUnit_Framework_TestCase
 {
-	public function testStep1() {
+    public static function setUpBeforeClass()
+    {
+        mb_internal_encoding("utf-8");
+    }
+
+    public function tearDown(){
+        mb_internal_encoding("utf-8");
+    }
+
+    public function testStep1() {
 		$words = array(
 			'aufeinander' => 'aufeinand',
 			'aufeinanderbiss' => 'aufeinanderbiss',
@@ -53,6 +59,13 @@ class GermanStemmerTest extends PHPUnit_Framework_TestCase
 			$this->assertEquals($expectedStem, GermanStemmer::stem($word));
 		}
 	}
+
+    public function test_ShouldThrowExceptionOnUnknownInput(){
+        $this->setExpectedException(InvalidArgumentException::class);
+        $word = "vergnüglich";
+        mb_internal_encoding("cp1252");
+        GermanStemmer::stem($word);
+    }
 
     public function test_ShouldSufficeSnowballExampleSet(){
         // see http://snowball.tartarus.org/algorithms/german/stemmer.html
