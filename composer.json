@@ -1,5 +1,5 @@
 {
-    "name": "paslandau/GermanStemmer",
+    "name": "paslandau/german-stemmer",
     "description" : "Takes a word and reduces it to its German stem using the Porter stemmer algorithm.",
     "authors": [
         {

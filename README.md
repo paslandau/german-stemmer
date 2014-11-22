@@ -1,5 +1,5 @@
 #GermanStemmer
-[![Build Status](https://travis-ci.org/paslandau/GermanStemmer.svg?branch=master)](https://travis-ci.org/paslandau/GermanStemmer)
+[![Build Status](https://travis-ci.org/paslandau/german-stemmer.svg?branch=master)](https://travis-ci.org/paslandau/german-stemmer)
 
 A German stemmer implementation in PHP that takes a word and reduces it to its German stem using the Porter stemmer algorithm, see:
 
@@ -47,11 +47,11 @@ Next, update your project's composer.json file to include GermanStemmer:
         "repositories": [
             {
                 "type": "git",
-                "url": "https://github.com/paslandau/GermanStemmer.git"
+                "url": "https://github.com/paslandau/german-stemmer.git"
             }
         ],
         "require": {
-             "paslandau/GermanStemmer": "~1"
+             "paslandau/german-stemmer": "~1"
         }
     }
 
