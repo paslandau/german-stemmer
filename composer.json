@@ -1,0 +1,29 @@
+{
+    "name": "paslandau/GermanStemmer",
+    "description" : "Takes a word and reduces it to its German stem using the Porter stemmer algorithm.",
+    "authors": [
+        {
+            "name": "Aris Buzachis",
+            "email": "buzachis.aris@gmail.com",
+            "homepage": "http://blog.buzachis-aris.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Pascal Landau",
+            "email": "kontakt@myseosolution.de",
+            "homepage": "http://www.myseosolution.de",
+            "role": "Developer"
+        }
+    ],
+	"autoload": {
+	    "psr-4": {
+	        "paslandau\\GermanStemmer\\": "src/"
+	    }
+	},
+    "require" : {
+        "php": "~5.5"
+    },
+    "require-dev" : {
+        "phpunit/phpunit": "~3"
+    }
+}

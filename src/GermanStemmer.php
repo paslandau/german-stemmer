@@ -1,4 +1,7 @@
 <?php
+
+namespace paslandau\GermanStemmer;
+
 /**
 
  * Copyright (c) 2013 Aris Buzachis (buzachis.aris@gmail.com)
@@ -28,11 +31,8 @@
  * Usage:
  *  $stem = GermanStemmer::stem($word);
  *
- * NOTE: You must open this document as a UTF-8 file, or you'll override the
- * accented forms.
- *
- *  @author Aris Buzachis <buzachis.aris@gmail.com>
- *  @version 1.1
+ * @author Aris Buzachis <buzachis.aris@gmail.com>
+ * @author Pascal Landau <kontakt@myseosolution.de>
  */
 
 class GermanStemmer
@@ -41,19 +41,22 @@ class GermanStemmer
     *  R1 and R2 regions (see the Porter algorithm)
     */
     private static $R1;
-    private static $R1Pos;
     private static $R2;
-    private static $R2Pos;
 
     private static $cache = array();
 
-    private static $vowels = array('a','e','i','o','u','y','A','O','U');
+    private static $vowels = array('a','e','i','o','u','y','ä','ö','ü');
     private static $s_ending = array('b','d','f','g','h','k','l','m','n','r','t');
     private static $st_ending = array('b','d','f','g','h','k','l','m','n','t');
 
 
+    /**
+     * Gets the stem of $word.
+     * @param string $word
+     * @return string
+     */
     public static function stem($word) {
-        $word = strtolower($word);
+        $word = mb_strtolower($word);
 
         if (!isset(self::$cache[$word])) {
             $result = self::getStem($word);
@@ -63,6 +66,10 @@ class GermanStemmer
         return self::$cache[$word];
     }
 
+    /**
+     * @param $word
+     * @return string
+     */
     private static function getStem($word) {
         $word = self::step0a($word);
         $word = self::step1($word);
@@ -74,22 +81,25 @@ class GermanStemmer
     }
 
     /**
-    *  replaces to protect some characters
-    */
+     * Replaces to protect some characters
+     * @param string $word
+     * @return string mixed
+     */
     private static function step0a($word) {
-        $word = str_replace(array('ä','ö','ü'),array('A','O','U'),$word);
         $vstr = implode('',self::$vowels);
-        $word = preg_replace('#(['.$vstr.'])u(['.$vstr.'])#', '$1Z$2',$word);
-        $word = preg_replace('#(['.$vstr.'])y(['.$vstr.'])#', '$1Y$2',$word);
+        $word = preg_replace('#(['.$vstr.'])u(['.$vstr.'])#u', '$1U$2',$word);
+        $word = preg_replace('#(['.$vstr.'])y(['.$vstr.'])#u', '$1Y$2',$word);
 
         return $word;
     }
 
     /**
-    *   Undo the initial replaces
-    */
+     * Undo the initial replaces
+     * @param string $word
+     * @return string
+     */
     private static function step0b($word) {
-        $word = str_replace(array('A','O','U','Y','Z'),array('ä','ö','ü','y','u'),$word);
+        $word = str_replace(array('ä','ö','ü', 'U','Y'),array('a','o','u','u','y'),$word);
 
         return $word;
     }
@@ -103,22 +113,22 @@ class GermanStemmer
 
         $arr = array('em','ern','er');
         foreach ($arr as $s) {
-            self::$R1 = preg_replace('#'.$s.'$#','',self::$R1,-1,$replaceCount);
+            self::$R1 = preg_replace('#'.$s.'$#u','',self::$R1,-1,$replaceCount);
             if ($replaceCount > 0) {
-                $word = preg_replace('#'.$s.'$#','',$word);
+                $word = preg_replace('#'.$s.'$#u','',$word);
             }
         }
 
         $arr = array('en','es','e');
         foreach ($arr as $s) {
-            self::$R1 = preg_replace('#'.$s.'$#','',self::$R1,-1,$replaceCount);
+            self::$R1 = preg_replace('#'.$s.'$#u','',self::$R1,-1,$replaceCount);
             if ($replaceCount > 0) {
-                $word = preg_replace('#'.$s.'$#','',$word);
-                $word = preg_replace('#niss$#', 'nis', $word);
+                $word = preg_replace('#'.$s.'$#u','',$word);
+                $word = preg_replace('#niss$#u', 'nis', $word);
             }
         }
 
-        $word = preg_replace('/(['.implode('',self::$s_ending).'])s$/','$1',$word);
+        $word = preg_replace('/(['.implode('',self::$s_ending).'])s$/u','$1',$word);
 
         return $word;
     }
@@ -130,15 +140,15 @@ class GermanStemmer
 
         $arr = array('est','er','en');
         foreach ($arr as $s) {
-            self::$R1 = preg_replace('#'.$s.'$#','',self::$R1,-1,$replaceCount);
+            self::$R1 = preg_replace('#'.$s.'$#u','',self::$R1,-1,$replaceCount);
             if ($replaceCount > 0) {
-                $word = preg_replace('#'.$s.'$#','',$word);
+                $word = preg_replace('#'.$s.'$#u','',$word);
             }
         }
 
         if (strpos(self::$R1,'st') !== FALSE) {
-            self::$R1 = preg_replace('#st$#','',self::$R1);
-            $word = preg_replace('#(...['.implode('',self::$st_ending).'])st$#','$1',$word);
+            self::$R1 = preg_replace('#st$#u','',self::$R1);
+            $word = preg_replace('#(...['.implode('',self::$st_ending).'])st$#u','$1',$word);
         }
 
         return $word;
@@ -151,34 +161,34 @@ class GermanStemmer
 
         $arr = array('end', 'ung');
         foreach ($arr as $s) {
-            if (preg_match('#'.$s.'$#',self::$R2)) {
-                $word = preg_replace('#([^e])'.$s.'$#','$1',$word, -1, $replaceCount);
+            if (preg_match('#'.$s.'$#u',self::$R2)) {
+                $word = preg_replace('#([^e])'.$s.'$#u','$1',$word, -1, $replaceCount);
                 if ($replaceCount > 0) {
-                    self::$R2 = preg_replace('#'.$s.'$#','',self::$R2,-1,$replaceCount);
+                    self::$R2 = preg_replace('#'.$s.'$#u','',self::$R2,-1,$replaceCount);
                 }
             }
         }
 
         $arr = array('isch', 'ik', 'ig');
         foreach ($arr as $s) {
-            if (preg_match('#'.$s.'$#',self::$R2)) {
-                $word = preg_replace('#([^e])'.$s.'$#','$1',$word, -1, $replaceCount);
+            if (preg_match('#'.$s.'$#u',self::$R2)) {
+                $word = preg_replace('#([^e])'.$s.'$#u','$1',$word, -1, $replaceCount);
                 if ($replaceCount > 0) {
-                    self::$R2 = preg_replace('#'.$s.'$#','',self::$R2);
+                    self::$R2 = preg_replace('#'.$s.'$#u','',self::$R2);
                 }
             }
         }
 
         $arr = array('lich', 'heit');
         foreach ($arr as $s) {
-            self::$R2 = preg_replace('#'.$s.'$#','',self::$R2,-1,$replaceCount);
+            self::$R2 = preg_replace('#'.$s.'$#u','',self::$R2,-1,$replaceCount);
             if ($replaceCount > 0) {
-                $word = preg_replace('#'.$s.'$#','',$word);
+                $word = preg_replace('#'.$s.'$#u','',$word);
             } else {
-                if (preg_match('#'.$s.'$#',self::$R1)) {
-                    $word = preg_replace('#(er|en)'.$s.'$#','$1',$word, -1, $replaceCount);
+                if (preg_match('#'.$s.'$#u',self::$R1)) {
+                    $word = preg_replace('#(er|en)'.$s.'$#u','$1',$word, -1, $replaceCount);
                     if ($replaceCount > 0) {
-                        self::$R1 = preg_replace('#'.$s.'$#','',self::$R1);
+                        self::$R1 = preg_replace('#'.$s.'$#u','',self::$R1);
                     }
                 }
             }
@@ -186,9 +196,9 @@ class GermanStemmer
 
         $arr = array('keit');
         foreach ($arr as $s) {
-            self::$R2 = preg_replace('#'.$s.'$#','',self::$R2,-1,$replaceCount);
+            self::$R2 = preg_replace('#'.$s.'$#u','',self::$R2,-1,$replaceCount);
             if ($replaceCount > 0) {
-                $word = preg_replace('#'.$s.'$#','',$word);
+                $word = preg_replace('#'.$s.'$#u','',$word);
             }
         }
 
@@ -196,30 +206,32 @@ class GermanStemmer
     }
 
     /**
-    * Find R1 and R2
-    */
+     * Find R1 and R2
+     * @param string $word
+     */
     private static function getR($word) {
-        $string = str_split($word);
-        $arrV = array_intersect($string, self::$vowels);
+        self::$R1 = "";
+        self::$R2 = "";
 
-        self::$R1Pos = NULL;
-        self::$R2Pos = NULL;
-
-        // find R1/R2 positions
-        for ($i=0; $i<count($string)-1; $i++) {
-            if(isset($arrV[$i]) && !isset($arrV[$i+1]) && self::$R1Pos === NULL) {
-                self::$R1Pos = $i+2;
-            } elseif (isset($arrV[$i]) && !isset($arrV[$i+1])  && self::$R1Pos) {
-                self::$R2Pos = $i+2;
-                break;
+        $vowels = implode("", self::$vowels);
+        $vowelGroup = "[{$vowels}]";
+        $nonVowelGroup = "[^{$vowels}]";
+        // R1 is the region after the first non-vowel following a vowel, or is the null region at the end of the word if there is no such non-vowel.
+        $pattern = "#(?P<rest>.*?{$vowelGroup}{$nonVowelGroup})(?P<r>.*)#u";
+        if(preg_match($pattern, $word, $match)){
+            $rest = $match["rest"];
+            $r1 = $match["r"];
+            // [...], but then R1 is adjusted so that the region before it contains at least 3 letters.
+            $cutOff = 3 - mb_strlen($rest);
+            if($cutOff > 0){
+                $r1 = mb_substr($r1, $cutOff);
             }
+            self::$R1 = $r1;
         }
 
-        if(self::$R1Pos!=NULL) {
-            self::$R1 = substr($word, self::$R1Pos);
-        }
-        if(self::$R2Pos!=NULL) {
-            self::$R2 = substr($word, self::$R2Pos);
+        //R2 is the region after the first non-vowel following a vowel in R1, or is the null region at the end of the word if there is no such non-vowel.
+        if(preg_match($pattern, self::$R1, $match)){
+            self::$R2 = $match["r"];
         }
     }
 }
