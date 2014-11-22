@@ -1,6 +1,7 @@
 <?php
 use paslandau\GermanStemmer\GermanStemmer;
 
+error_reporting(E_ALL);
 mb_internal_encoding("utf-8");
 
 /**
