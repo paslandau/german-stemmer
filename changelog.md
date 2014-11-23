@@ -1,3 +1,8 @@
+###1.0.1
+
+- added license
+- Fixed demo* files autoloading
+
 #1.0.0
 
 - added demo files and more extensive readme (see readme.md)
