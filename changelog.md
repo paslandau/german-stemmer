@@ -1,3 +1,7 @@
+## 0.1.0
+
+ - changed package name from GermanStemmer to german-stemmer
+
 ###1.0.1
 
 - added license

@@ -1,4 +1,4 @@
-#GermanStemmer
+#german-stemmer
 [![Build Status](https://travis-ci.org/paslandau/german-stemmer.svg?branch=master)](https://travis-ci.org/paslandau/german-stemmer)
 
 A German stemmer implementation in PHP that takes a word and reduces it to its German stem using the Porter stemmer algorithm, see:
@@ -45,7 +45,7 @@ See `demo*.php` files.
 
 ##Installation
 
-The recommended way to install GermanStemmer is through [Composer](http://getcomposer.org/).
+The recommended way to install german-stemmer is through [Composer](http://getcomposer.org/).
 
     curl -sS https://getcomposer.org/installer | php
 
