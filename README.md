@@ -52,14 +52,10 @@ The recommended way to install german-stemmer is through [Composer](http://getco
 Next, update your project's composer.json file to include GermanStemmer:
 
     {
-        "repositories": [
-            {
-                "type": "git",
-                "url": "https://github.com/paslandau/german-stemmer.git"
-            }
-        ],
+        "repositories": [ { "type": "composer", "url": "http://packages.myseosolution.de/"} ],
+        "minimum-stability": "dev",
         "require": {
-             "paslandau/german-stemmer": "~1"
+             "paslandau/german-stemmer": "dev-master"
         }
     }
 
