@@ -2,9 +2,9 @@
 
 #dev-master
 
-##0.1.2
+###0.1.2
 
- - updated dependencies (Guzzle ^5.3; WebUtil ^0.2; PHPUnit ~4)
+ - updated dependencies (PHPUnit ~4)
 
 ###1.1.1
 
@@ -16,14 +16,14 @@
 
 ###1.0.1
 
-- added license
-- Fixed demo* files autoloading
+ - added license
+ - Fixed demo* files autoloading
 
 #1.0.0
 
-- added demo files and more extensive readme (see readme.md)
-- fixed minor bugs (e.g. mb_strtolower vs strtolower)
-- introduced project structure for easier integration:
+ - added demo files and more extensive readme (see readme.md)
+ - fixed minor bugs (e.g. mb_strtolower vs strtolower)
+ - introduced project structure for easier integration:
  - namespaces and composer PSR-4 autoloading (see composer.json)
  - travis setup for continous integration testing (see .travis.yml)
  - started semantic versioning
