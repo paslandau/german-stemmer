@@ -37,7 +37,7 @@ mb_internal_encoding("utf-8");
 
 ###Examples
 
-See `demo*.php` files.
+See `examples` folder.
 
 ##Requirements
 
