@@ -34,7 +34,6 @@ Make sure to use UTF-8 as character encoding, otherwise `GermanStemmer::stem()` 
 mb_internal_encoding("utf-8");
 ```
 
-
 ###Examples
 
 See `examples` folder.

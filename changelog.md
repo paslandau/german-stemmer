@@ -1,6 +1,12 @@
 #todo
 
+ - review if äöü should really be replaced bei aou --- maybe make that optional?
+
 #dev-master
+
+###0.2.0
+
+ - updated dependencies (PHP ~7)
 
 ###0.1.2
 
